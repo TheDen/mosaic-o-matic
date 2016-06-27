@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html class="noselect" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+x<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <!--    <script type="text/javascript" src="js/mosaic.js"></script>
-	    <script type="text/javascript" src="js/client.js"></script>
-	    -->
     <script src="js/dropzone.js"></script>
-    <script>
-      Dropzone.options.uploadWidget = {
-      paramName: 'file',
-      maxFilesize: 2, // MB
-      maxFiles: 1,
-      dictDefaultMessage: 'Drag an image here to upload (or click to select one)',
-      
-
-      init: function () { this.on("complete", function (file) {
-      if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-      window.location.href = '/index.html?' + file.name;
-      };
-      });
-      }
-      };
-      
-    </script>
+    <script src="js/dropzone_options.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css" /> 
     <link rel="stylesheet" href="dropzone.css">
-    <title>Mosaic</title>
+    <title>MOSAIC-O-MATIC</title>
   </head>
   <br />
   <h1>MOSAIC-O-MATIC</h1>
@@ -37,6 +18,5 @@
       </div>
     </form>
   </body>
-
 </html>
 

@@ -222,5 +222,8 @@ app.get('/svg*', function(req, res){
     });
 
 app.get('*', function(req, res){
-        res.status(404).send('404');
+	res.writeHead(404, {'Content-Type': 'text/html'});
+	fs.createReadStream(dir + '/404.html').pipe(res);
+	return;
+	//        res.status(404).send('404');
     });

@@ -14,17 +14,6 @@ html  {
     text-shadow: 0px 0px 1px;
 }
 
-
-/*
-body {
-     position: absolute;
-     margin: auto;
-     left: 50%;
-     right: 50%;	
-     top: 50%;
-     bottom: 50%;  
-}*/
-
 canvas {
        display: block;
     margin: 0 auto;
