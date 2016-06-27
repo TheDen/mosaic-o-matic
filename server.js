@@ -205,7 +205,7 @@ app.get('/svg*', function(req, res){
 	    var j = 0;
 	    for (var i = 0; i < (mosaic.TILE_WIDTH * mosaic.TILE_HEIGHT); i++) {
 		if (j ==  mosaic.TILE_WIDTH) {
-		    body = body.concat('\n <br />\n');
+		    body = body.concat('<br />\n');
 		    res.write(body);
 		    body = '';
 		    body = body.concat(util.format(svgTemplate, mosaic.TILE_WIDTH, mosaic.TILE_HEIGHT, hexcolors[i]));
