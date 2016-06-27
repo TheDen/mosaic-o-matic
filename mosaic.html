@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html class="noselect" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <!--    <script type="text/javascript" src="js/mosaic.js"></script>
+	    <script type="text/javascript" src="js/client.js"></script>
+	    -->
+    <script src="js/dropzone.js"></script>
+    <script>
+      Dropzone.options.uploadWidget = {
+      paramName: 'file',
+      maxFilesize: 2, // MB
+      maxFiles: 1,
+      dictDefaultMessage: 'Drag an image here to upload (or click to select one)',
+      
+
+      init: function () { this.on("complete", function (file) {
+      if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+      window.location.href = '/index.html?' + file.name;
+      };
+      });
+      }
+      };
+      
+    </script>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css" /> 
+    <link rel="stylesheet" href="dropzone.css">
+    <title>Mosaic</title>
+  </head>
+  <br />
+  <h1>MOSAIC-O-MATIC</h1>
+  <body>
+    <div id="links">
+    </div>
+    <form id="upload-widget" method="post" class="dropzone" enctype="multipart/form-data" action="/upload">
+      <div class="fallback">
+	<input name="file" type="file" />
+      </div>
+    </form>
+  </body>
+
+</html>
+

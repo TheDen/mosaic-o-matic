@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <script type="text/javascript">
+      var parser = document.createElement('a');
+      parser.href = (window.location.href)
+      //parser.search.split("?")[1];
+      var imgsrc = "uploads/" + parser.search.split("?")[1];
+      var query = (decodeURIComponent(parser.search.split("?")[1]));
+      
+      
+  </script>
+      <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+  </head>
+  <body>
+      <canvas id="canvas"> <!-- width="100%" height="100%" style="border:1px solid #000000;"> -->
+      </canvas>
+
+      <br />
+      <div class="tbox">
+	<div class="text" id="text">
+	  <input autocomplete="off" type="range" min="0" max="50" value="0" id="slider"></input>
+	  <div id='dispDiv' style='margin-top:2em;'>></div>
+	  <form name="shapes" autocomplete="off">
+	    <input type="radio" name="shape" value="square" checked="checked"> Squares<br />
+	    <input type="radio" name="shape" value="circle"> Circles<br />
+	  </form>
+	  <!-- <a target="_blank" href="/svg" title="SVGify">SVGify</a> -->
+	</div>
+      </div>
+  </body>
+  
+  <script type="text/javascript">
+    
+    var parser = document.createElement('a');
+    parser.href = (window.location.href)
+    //parser.search.split("?")[1];
+    var imgsrc = "uploads/" + parser.search.split("?")[1];
+    var query = (decodeURIComponent(parser.search.split("?")[1]));
+
+/*    var link = "http://google.com";
+      var element = document.createElement("a");
+      element.setAttribute("href", link);
+      element.innerHTML = "your text";
+    */  
+    desiredLink = '/svg?' + query;
+    desiredText = "SVGify This!";
+    //    document.getElementById
+    document.getElementsByTagName('div')[1].innerHTML += '<br /><a target="_blank" href="'+desiredLink+'">'+desiredText+'</a>';
+
+      // and append it to where you'd like it to go:
+    //  document.body.appendChild('text');
+
+
+  </script>
+  <script type="text/javascript" src="js/client.js"></script>
+  
+</html>
+
+
+
