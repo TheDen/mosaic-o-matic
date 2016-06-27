@@ -1,7 +1,7 @@
 // Constants shared between client and server.
 
-var TILE_WIDTH = 15;
-var TILE_HEIGHT = 15;
+var TILE_WIDTH = 20;
+var TILE_HEIGHT = 20;
 
 var exports = exports || null;
 if (exports) {
