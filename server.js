@@ -74,7 +74,10 @@ app.get('/uploads/*', function(req, res)  {
 		    res.end(img, 'binary');
 		} else if(err.code == 'ENOENT') {
 		    console.log('file does not exist');
-                    res.status(404).send('404');
+		    //		    res.status(404).send('404');
+		    res.writeHead(404, {'Content-Type': 'text/html'});
+		    fs.createReadStream(dir + '/public/404.html').pipe(res);
+		    return;
 		    // file does not exist
 		    //fs.writeFile('log.txt', 'Some log\n');
 		} else {
@@ -99,7 +102,10 @@ app.get('/index.html', function (req, res) {
                     //res.end(img, 'binary');
                 } else if(err.code == 'ENOENT') {
 		    console.log('file does not exist');
-		    res.status(404).send('404');
+		    res.writeHead(404, {'Content-Type': 'text/html'});
+                    fs.createReadStream(dir + '/public/404.html').pipe(res);
+		    return;
+		    //fs.createReadStream(dir + '/404.html').pipe(res);
                     //fs.writeFile('log.txt', 'Some log\n');
                 } else {
                     console.log('Some other error: ', err.code);
@@ -113,12 +119,14 @@ app.get('/svg*', function(req, res){
 	fs.stat('uploads/' + image, function(err, stat) {
                 if(err == null) {
                     console.log('File exists');
-                    //     var img = fs.readFileSync('uploads' + image);
-                    //res.writeHead(200, {'Content-Type': 'image' });
-                    //res.end(img, 'binary');
+		    var img = fs.readFileSync('uploads' + image);
+                    res.writeHead(200, {'Content-Type': 'image' });
+		    res.end(img, 'binary');
                 } else if(err.code == 'ENOENT') {
                     console.log('file does not exist');
-                    res.status(404).send('404');
+		    res.writeHead(404, {'Content-Type': 'text/html'});
+                    fs.createReadStream(dir + '/public/404.html').pipe(res);
+		    return;
                     //fs.writeFile('log.txt', 'Some log\n');
                 } else {
                     console.log('Some other error: ', err.code);
@@ -221,9 +229,12 @@ app.get('/svg*', function(req, res){
 	img.src = 'uploads/' + image;
     });
 
-app.get('*', function(req, res){
+//res.status(404).write(dir + '/404.html').pipe(res);
+
+
+app.get('*/', function(req, res){
 	res.writeHead(404, {'Content-Type': 'text/html'});
-	fs.createReadStream(dir + '/404.html').pipe(res);
+	fs.createReadStream(dir + '/public/404.html').pipe(res);
 	return;
-	//        res.status(404).send('404');
+	//res.status(404).send('404');
     });
