@@ -41,7 +41,8 @@ var upload = multer({storage: storage}).single('file');
 
 app.get('/', function(req, res) {
 	var pathname = url.parse(req.url).pathname;
-	res.sendFile(__dirname + '/mosaic.html');
+	res.writeHead(200, {'Content-Type': 'image' });
+	fs.createReadStream(dir + '/mosaic.html').pipe(res);
     });
 
 var server = app.listen(8765, function () {
@@ -64,8 +65,15 @@ app.post('/upload', function(req, res) {
 	    });
 
 app.get('/uploads/*', function(req, res)  {
-	image = decodeURIComponent((url.parse(req.url).pathname).split("/uploads")[1]);
-	//image.split("/uploads")[1];
+	// fix errror with garbled URIs
+	try {
+	    var image = decodeURIComponent((url.parse(req.url).pathname).split("/uploads")[1]);
+	}
+        catch (err) {
+            res.writeHead(404, {'Content-Type': 'text/html'});
+            fs.createReadStream(dir + '/public/404.html').pipe(res);
+            return;
+	    }
 	fs.stat('uploads' + image, function(err, stat) {
 		if(err == null) {
 		    console.log('File exists');
@@ -74,7 +82,7 @@ app.get('/uploads/*', function(req, res)  {
 		    res.end(img, 'binary');
 		} else if(err.code == 'ENOENT') {
 		    console.log('file does not exist');
-		    //		    res.status(404).send('404');
+		    //res.status(404).send('404');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
 		    fs.createReadStream(dir + '/public/404.html').pipe(res);
 		    return;
@@ -88,18 +96,25 @@ app.get('/uploads/*', function(req, res)  {
 	});
 
 app.get('/index.html', function (req, res) {
-	image = decodeURIComponent(url.parse(req.url).query);
+	try {
+	    var image = decodeURIComponent(url.parse(req.url).query);
+	}
+        catch (err) {
+            res.writeHead(404, {'Content-Type': 'text/html'});
+            fs.createReadStream(dir + '/public/404.html').pipe(res);
+            return;
+        }
         //image.split("/uploads")[1];
         //var query = url.parse(req.url,true).query;
 	//console.log(url.parse(req.url).query);
 	//console.log(decodeURIComponent(url.parse(req.url).query));
-	
+	console.log('uploads' + image);
         fs.stat('uploads/' + image, function(err, stat) {
                 if(err == null) {
                     console.log('File exists');
-		    //     var img = fs.readFileSync('uploads' + image);
-                    //res.writeHead(200, {'Content-Type': 'image' });
-                    //res.end(img, 'binary');
+		    res.writeHead(200, {'Content-Type': 'text/html' });
+                    fs.createReadStream(dir + '/index.html').pipe(res);
+		    return;
                 } else if(err.code == 'ENOENT') {
 		    console.log('file does not exist');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
@@ -108,18 +123,25 @@ app.get('/index.html', function (req, res) {
 		    //fs.createReadStream(dir + '/404.html').pipe(res);
                     //fs.writeFile('log.txt', 'Some log\n');
                 } else {
-                    console.log('Some other error: ', err.code);
-                }
-            });
-	res.sendFile(__dirname + '/index.html');
+		    console.log('Some other error: ', err.code);
+		}
+	    });  
+	return;
     });
 
-app.get('/svg*', function(req, res){
-	image = decodeURIComponent(url.parse(req.url).query);
+app.get('/svg', function(req, res){
+	try {
+	    var image = decodeURIComponent(url.parse(req.url).query);
+	}
+	catch (err) {
+	    res.writeHead(404, {'Content-Type': 'text/html'});
+	    fs.createReadStream(dir + '/public/404.html').pipe(res);
+	    return;
+	}
 	console.log(image);
 	fs.stat('uploads/' + image, function(err, stat) {
                 if(err == null) {
-                    console.log('File exists');
+                    console.log('File existsss');
 		    //var img = fs.readFileSync('uploads/' + image);
                     //res.writeHead(200, {'Content-Type': 'image' });
 		    //res.end(img, 'binary');
@@ -236,5 +258,4 @@ app.get('*/', function(req, res){
 	res.writeHead(404, {'Content-Type': 'text/html'});
 	fs.createReadStream(dir + '/public/404.html').pipe(res);
 	return;
-	//res.status(404).send('404');
     });
