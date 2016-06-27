@@ -116,12 +116,13 @@ app.get('/index.html', function (req, res) {
 
 app.get('/svg*', function(req, res){
 	image = decodeURIComponent(url.parse(req.url).query);
+	console.log(image);
 	fs.stat('uploads/' + image, function(err, stat) {
                 if(err == null) {
                     console.log('File exists');
-		    var img = fs.readFileSync('uploads' + image);
-                    res.writeHead(200, {'Content-Type': 'image' });
-		    res.end(img, 'binary');
+		    //var img = fs.readFileSync('uploads/' + image);
+                    //res.writeHead(200, {'Content-Type': 'image' });
+		    //res.end(img, 'binary');
                 } else if(err.code == 'ENOENT') {
                     console.log('file does not exist');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
@@ -220,7 +221,6 @@ app.get('/svg*', function(req, res){
 		    j++;
 		}
 	    }
-	    
 	    body = body.concat(' <br />\n</html>');
 	    res.write(body);
 	    res.end();
