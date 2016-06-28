@@ -90,12 +90,12 @@ function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
 	for (var x = 0; x < cols; x++) {
 	    imgdata.push(ctx.getImageData(x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight)); 
 	    
-	    var pixelInterval = 2, // Rather than inspect every single pixel in the image inspect every 5th pixel
+	    var pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
 		count = 0,
 		k = -4,
 		data, datalength;
 	    
-	    var rgbval = {r:0, g:0, b:0};
+	    var rgbval = {r:255, g:255, b:255};
 	    data = imgdata[i].data;
 	    datalength = data.length;
 	    
@@ -124,9 +124,8 @@ function drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     var i = 0;
     for (var y = 0; y < rows; y++) {
 	for (var x = 0; x < cols; x++) {
-	    ctx.fillStyle = hexcolors[i];
+	    ctx.fillStyle = hexcolors[i++];
 	    ctx.fillRect( x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight);
-	    i++;
 	}
     }
 }
