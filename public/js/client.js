@@ -124,8 +124,9 @@ function drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     var i = 0;
     for (var y = 0; y < rows; y++) {
 	for (var x = 0; x < cols; x++) {
-	    ctx.fillStyle = hexcolors[i++];
+	    ctx.fillStyle = hexcolors[i];
 	    ctx.fillRect( x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight);
+	    i++;
 	}
     }
 }
