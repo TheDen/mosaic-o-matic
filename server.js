@@ -18,7 +18,7 @@ var http = require('http');
 
 var Canvas = require('canvas');
 var multer   =  require( 'multer' );
-var upload   =  multer( { dest: 'uploads/' } );
+//var upload   =  multer( { dest: 'uploads/' } );
 
 var dir = path.dirname(fs.realpathSync(__filename));
 var svgTemplate = [
@@ -39,14 +39,14 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage}).single('file');
 
+var server = app.listen(8765, function () {
+        console.log('Listening on port ' + server.address().port)
+    });
+
 app.get('/', function(req, res) {
 	var pathname = url.parse(req.url).pathname;
 	res.writeHead(200, {'Content-Type': 'image' });
 	fs.createReadStream(dir + '/mosaic.html').pipe(res);
-    });
-
-var server = app.listen(8765, function () {
-	console.log('Listening on port ' + server.address().port)
     });
 
 app.post('/upload', function(req, res) {
@@ -55,10 +55,10 @@ app.post('/upload', function(req, res) {
 		    console.log('Error Occured' + err);
 		    return;
 		}
-		console.log(req.file.path);
+		//console.log(req.file.path);
 		//res.end('Your Files Uploaded');
 		//console.log('Photo Uploaded');
-		console.log(req.method);
+		//console.log(req.method);
 		//console.log(req.body);
 		return res.status( 200 ).send( req.file.path );
 	    })
@@ -76,18 +76,15 @@ app.get('/uploads/*', function(req, res)  {
 	    }
 	fs.stat('uploads' + image, function(err, stat) {
 		if(err == null) {
-		    console.log('File exists');
+		    console.log(image + ' exists on server');
 		    var img = fs.readFileSync('uploads' + image);
 		    res.writeHead(200, {'Content-Type': 'image' });
 		    res.end(img, 'binary');
 		} else if(err.code == 'ENOENT') {
-		    console.log('file does not exist');
-		    //res.status(404).send('404');
+		    console.log(image + 'does not exist on server');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
 		    fs.createReadStream(dir + '/public/404.html').pipe(res);
 		    return;
-		    // file does not exist
-		    //fs.writeFile('log.txt', 'Some log\n');
 		} else {
 		    console.log('Some other error: ', err.code);
 		}
@@ -104,25 +101,17 @@ app.get('/index.html', function (req, res) {
             fs.createReadStream(dir + '/public/404.html').pipe(res);
             return;
         }
-        //image.split("/uploads")[1];
-        //var query = url.parse(req.url,true).query;
-	//console.log(url.parse(req.url).query);
-	//console.log(decodeURIComponent(url.parse(req.url).query));
 	console.log('uploads' + image);
         fs.stat('uploads/' + image, function(err, stat) {
                 if(err == null) {
-                    console.log('File exists');
 		    res.writeHead(200, {'Content-Type': 'text/html' });
                     fs.createReadStream(dir + '/index.html').pipe(res);
 		    return;
                 } else if(err.code == 'ENOENT') {
-		    console.log('file does not exist');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
                     fs.createReadStream(dir + '/public/404.html').pipe(res);
 		    return;
-		    //fs.createReadStream(dir + '/404.html').pipe(res);
-                    //fs.writeFile('log.txt', 'Some log\n');
-                } else {
+		} else {
 		    console.log('Some other error: ', err.code);
 		}
 	    });  
@@ -140,40 +129,30 @@ app.get('/svg', function(req, res){
 	}
 	console.log(image);
 	fs.stat('uploads/' + image, function(err, stat) {
-                if(err == null) {
-                    console.log('File existsss');
-		    //var img = fs.readFileSync('uploads/' + image);
-                    //res.writeHead(200, {'Content-Type': 'image' });
-		    //res.end(img, 'binary');
-                } else if(err.code == 'ENOENT') {
+		if(err == null) {
+		    
+		} else if(err.code == 'ENOENT') {
                     console.log('file does not exist');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
                     fs.createReadStream(dir + '/public/404.html').pipe(res);
 		    return;
-                    //fs.writeFile('log.txt', 'Some log\n');
-                } else {
+		} else {
                     console.log('Some other error: ', err.code);
                 }
             });
 	console.log(image);
 	var pathname = url.parse(req.url).pathname;
         console.log(pathname);
-        var m;
 	var Image = Canvas.Image;
 	var canvas = new Canvas(100, 100);
 	var ctx = canvas.getContext('2d');
 	var img = new Image();
 	
-	//img.onerror = function (err) {
-	//throw err
-	//}
+	img.onerror = function (err) {
+	throw err
+	}
 	
 	img.onload = function () {
-	    // Math.abs(32-(mosaic.TILE_HEIGHT));
-	    
-	    //var rows = Math.floor(window.innerWidth);
-	    //var cols = Math.floor(window.innerHeight);
-	    
 	    var rows = mosaic.TILE_HEIGHT;
 	    var cols = mosaic.TILE_WIDTH;
 	    
@@ -199,7 +178,7 @@ app.get('/svg', function(req, res){
 		    data = imgdata[i].data;
 		    datalength = data.length;
 		    
-		    while ((k += pixelInterval * 4) < datalength) {
+	    while ((k += pixelInterval * 4) < datalength) {
 			count++;
 			rgbval.r += data[k];
 			rgbval.g += data[k+1];
@@ -250,9 +229,6 @@ app.get('/svg', function(req, res){
 	};
 	img.src = 'uploads/' + image;
     });
-
-//res.status(404).write(dir + '/404.html').pipe(res);
-
 
 app.get('*/', function(req, res){
 	res.writeHead(404, {'Content-Type': 'text/html'});
