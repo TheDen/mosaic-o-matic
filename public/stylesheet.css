@@ -3,10 +3,10 @@ html  {
 //    -webkit-font-smoothing: antialiased;
     -webkit-font-smoothing: subpixel-antialiased;
 -webkit-text-stroke:1px transparent;
-
     background-image: url('bg.jpg');
     background-attachment: fixed;
-    no-repeat center; center; fixed;
+//        no-repeat center; center; fixed;
+    background-repeat: no-repeat;
    -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
