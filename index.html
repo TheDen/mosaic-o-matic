@@ -4,7 +4,6 @@
     <script type="text/javascript">
       var parser = document.createElement('a');
       parser.href = (window.location.href)
-      //parser.search.split("?")[1];
       var imgsrc = "uploads/" + parser.search.split("?")[1];
       var query = (decodeURIComponent(parser.search.split("?")[1]));
     </script>
@@ -20,8 +19,8 @@
 	<input autocomplete="off" type="range" min="0" max="50" value="0" id="slider"></input>
 	<div id='dispDiv' style='margin-top:2em;'>></div>
 	<form name="shapes" autocomplete="off">
-	  <input type="radio" name="shape" value="square" checked="checked"> Squares<br />
-	  <input type="radio" name="shape" value="circle"> Circles<br />
+	  <input id="square" type="radio" name="shape" value="square" checked="checked"><label for="square"> Squares</label><br />
+	  <input id="circle" type="radio" name="shape" value="circle"><label for="circle"> Circles</label><br />
 	</form>
       </div>
     </div>
@@ -29,7 +28,6 @@
   <script type="text/javascript">
     var parser = document.createElement('a');
     parser.href = (window.location.href)
-    //parser.search.split("?")[1];
     var imgsrc = "uploads/" + parser.search.split("?")[1];
     var query = (decodeURIComponent(parser.search.split("?")[1]));
     desiredLink = '/svg?' + query;
