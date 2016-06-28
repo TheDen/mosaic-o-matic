@@ -16,10 +16,8 @@ function clearimg() {
 }
 
 function updateslider() {
-    dispDiv.innerHTML = "Number of tiles: " + slider.value*slider.value;
+    dispDiv.innerHTML = "Number of tiles: " + slider.value + "x" + slider.value;
 }
-
-
 
 function process() {
     if (slider.value == 0) {
@@ -84,7 +82,6 @@ function process() {
     }
 }
 
-
 function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
     var imgdata = [];
     var hexcolors = [];
@@ -133,7 +130,6 @@ function drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     }
 }
 
-
 function drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     var i = 0;
     for (var y = 0; y < rows; y++) {
@@ -157,15 +153,11 @@ var slider = document.getElementById("slider");
 var dispDiv = document.getElementById("dispDiv");
     
 var img = new Image();
-//img.src = "https://dl.dropboxusercontent.com/u/139992952/multple/sailboat.png";
-//img.src = "uploads/image"
 img.src = imgsrc;
 console.log(img.src);
-//img.src = "pyramid-of-khafre.jpg";
-//img.crossOrigin = "Anonymous";
 img.onload = process;
 img.crossOrigin = "Anonymous";
 
-slider.addEventListener("change", function start() {  process(); });
+slider.addEventListener("input", function start() {  process(); });
 
 
