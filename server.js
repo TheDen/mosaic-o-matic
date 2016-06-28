@@ -80,6 +80,7 @@ app.get('/uploads/*', function(req, res)  {
 		    var img = fs.readFileSync('uploads' + image);
 		    res.writeHead(200, {'Content-Type': 'image' });
 		    res.end(img, 'binary');
+		    //return;
 		} else if(err.code == 'ENOENT') {
 		    console.log(image + 'does not exist on server');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
@@ -138,6 +139,7 @@ app.get('/svg', function(req, res){
 		    return;
 		} else {
                     console.log('Some other error: ', err.code);
+		    //return;
                 }
             });
 	console.log(image);
@@ -227,7 +229,13 @@ app.get('/svg', function(req, res){
 	    res.end();
 	    return;
 	};
-	img.src = 'uploads/' + image;
+	try { 
+	    img.src = 'uploads/' + image;
+	}
+	catch (err) {
+	    console.log('file error');
+	    return;
+	}
     });
 
 app.get('*/', function(req, res){
