@@ -44,8 +44,7 @@ h1 {
 	     
 div.slider {
     text-align: center;
-@track-color: #424242;
-@thumb-color: #555bc8;    
+    font-size: 2px;
     }
 
 
@@ -66,7 +65,7 @@ div.tbox {
 input[type=range] {
   -webkit-appearance: none;
 //  width: 100%;
-  margin: 13.8px 0;
+//  margin: 13.8px 0;
 }
 input[type=range]:focus {
   outline: none;
