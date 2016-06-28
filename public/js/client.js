@@ -95,11 +95,11 @@ function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
 		k = -4,
 		data, datalength;
 	    
-	    var rgbval = {r:255, g:255, b:255};
+	    var rgbval = {r:102,g:102,b:102};
 	    data = imgdata[i].data;
 	    datalength = data.length;
 	    
-	    while ((k += pixelInterval * 4) < datalength) {
+	    while ((k += pixelInterval * 200) < datalength) {
 		count++;
 		rgbval.r += data[k];
 		rgbval.g += data[k+1];
