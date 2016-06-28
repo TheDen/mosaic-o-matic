@@ -90,7 +90,7 @@ function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
 	for (var x = 0; x < cols; x++) {
 	    imgdata.push(ctx.getImageData(x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight)); 
 	    
-	    var pixelInterval = 40, // Rather than inspect every single pixel in the image inspect every 5th pixel
+	    var pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
 		count = 0,
 		k = -4,
 		data, datalength;
