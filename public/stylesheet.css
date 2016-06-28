@@ -20,7 +20,7 @@ a:hover {color:white;}  /* mouse over link */
 a:active {color:white;}  /* selected link */
 
 canvas {
-       display: block;
+    display: block;
     margin: 0 auto;
     border:1px solid black;
     max-width: 100%;
@@ -36,12 +36,14 @@ h1 {
 div.text {
     text-align: center;
     color: white;
+	    
     }
-
+    
 div.tbox {
   background: black;
   opacity: 0.7;	
   padding: 2%;
   text-align: center;
- }
+
+   }
 
