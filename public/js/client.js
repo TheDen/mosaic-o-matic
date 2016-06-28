@@ -27,58 +27,58 @@ function process() {
     }
     else {
 			    
-    rows = slider.value;
-    cols = slider.value;
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    var pieces = [];
-    var pieceWidth = img.width / cols;
-    var pieceHeight = img.height / rows;
+	rows = slider.value;
+	cols = slider.value;
+	canvas.width = img.width;
+	canvas.height = img.height;
 	
-    drawimg();
-    
-    for (var row = 0; row < rows; row++) {
-	for (var col = 0; col < cols; col++) {
-	    pieces.push({
-		    col: col,
-			row: row
-			});
-	}
-    }
-    var tiles = rows * cols;
-    var hexcolors = []; //new Array('tiles');
-    hexcolors = getcolors(rows, cols, pieces, pieceWidth, pieceHeight);
-    
-    var radios = document.forms["shapes"].elements["shape"];
-    if (radios[0].checked) {
-	clearimg();
-	drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight);
-	updateslider();
-    }
-    else if (radios[1].checked) {
-	clearimg();
-	drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight);
-	updateslider();
-    }
-    else {
-	clearimg();
+	var pieces = [];
+	var pieceWidth = img.width / cols;
+	var pieceHeight = img.height / rows;
+	
 	drawimg();
-    }
-    for(var i = 0, max = radios.length; i < max; i++) {
-	radios[i].onclick = function() {
-	    if (this.value == "square") {
-		clearimg();
-		drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight);
-		updateslider();
-	    }
-	    if (this.value == "circle") {
-		clearimg();
-		drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight);
-		updateslider();
+	
+	for (var row = 0; row < rows; row++) {
+	    for (var col = 0; col < cols; col++) {
+		pieces.push({
+			col: col,
+			    row: row
+			    });
 	    }
 	}
-    }
+	var tiles = rows * cols;
+	var hexcolors = []; //new Array('tiles');
+	hexcolors = getcolors(rows, cols, pieces, pieceWidth, pieceHeight);
+	
+	var radios = document.forms["shapes"].elements["shape"];
+	if (radios[0].checked) {
+	    clearimg();
+	    drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight);
+	    updateslider();
+	}
+	else if (radios[1].checked) {
+	    clearimg();
+	    drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight);
+	    updateslider();
+	}
+	else {
+	    clearimg();
+	    drawimg();
+	}
+	for(var i = 0, max = radios.length; i < max; i++) {
+	    radios[i].onclick = function() {
+		if (this.value == "square") {
+		    clearimg();
+		    drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight);
+		    updateslider();
+		}
+		if (this.value == "circle") {
+		    clearimg();
+		    drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight);
+		    updateslider();
+		}
+	    }
+	}
     }
 }
 
