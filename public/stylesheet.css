@@ -2,7 +2,6 @@
 html  {
     -webkit-font-smoothing: antialiased;
         background-image: url('bg.jpg');
-    //    background-image: url('../../Downloads/mosaic-background-13.jpg');	
 //    background: black;
     background-attachment: fixed;
     no-repeat center; center; fixed;
