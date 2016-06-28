@@ -1,25 +1,23 @@
 @import url(https://fonts.googleapis.com/css?family=Economica);
 html  {
     -webkit-font-smoothing: antialiased;
-        background-image: url('bg.jpg');
-//    background: black;
+    background-image: url('bg.jpg');
     background-attachment: fixed;
     no-repeat center; center; fixed;
-    -webkit-background-size: cover;
+   -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
    font-family: 'Economica', Inconsolata, "Inconsolata Fallback", "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
    font-size: 3vh;
-//    font-family: Inconsolata, "Inconsolata Fallback", "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
     min-height: 100%;
     text-shadow: 0px 0px 1px;
 }
 
 a:link {color:white;}      /* unvisited link */
 a:visited {color:white;}  /* visited link */ 
-a:hover {color:#FFFFFF;}  /* mouse over link */
-a:active {color:#FFFFFF;}  /* selected link */
+a:hover {color:white;}  /* mouse over link */
+a:active {color:white;}  /* selected link */
 
 canvas {
        display: block;
@@ -32,16 +30,10 @@ h1 {
    text-align: center;
    font-size: 8vh;
    font-family: 'Economica', Inconsolata, "Inconsolata Fallback", "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
-a:link {color:black;}      /* unvisited link */
      }
 
+
 div.text {
-/*    position: absolute;
-    left: 50%;
-    right: 50%;
-    top: 50%;
-    bottom: 50%; 
-    margin: auto; */
     text-align: center;
     color: white;
     }
@@ -50,45 +42,6 @@ div.tbox {
   background: black;
   opacity: 0.7;	
   padding: 2%;
+  text-align: center;
  }
 
-
-.fileinput {
-    color: transparent;
-//  font-size: 0px;	
-   }
-
-.fileinput:active {
-  outline: 0;
-}
-
-.fileinput::-webkit-file-upload-button {
-  visibility: hidden;
-}
-
-.fileinput::before {	
-color: black;
-  content: "Upload";
-  content: url(upload_icon.png);
-  display: inline-block;
-  // background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
-  border: 1px solid #999;
-//  border-radius: 3px;
-  padding: 5px 8px;
-  outline: none;
-  white-space: nowrap;
-  -webkit-user-select: none;
-  cursor: pointer;
-//  text-shadow: 1px 1px #fff;
-  //font-weight: 700;
-//  font-size: 15vh;
-}
-
-.fileinput:hover::before {
-  border-color: black;
-}
-.fileinput:active::before {
-//  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-}
-
-*/
