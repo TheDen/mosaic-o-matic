@@ -31,6 +31,8 @@ function process() {
 	cols = slider.value;
 	canvas.width = img.width;
 	canvas.height = img.height;
+	console.log(img.width);
+	console.log(img.height);
 	
 	var pieces = [];
 	var pieceWidth = img.width / cols;
@@ -89,12 +91,12 @@ function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
     for (var y = 0; y < rows; y++) {
 	for (var x = 0; x < cols; x++) {
 	    imgdata.push(ctx.getImageData(x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight)); 
-	    
-	    var pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
+	    var pixelInterval = Math.ceil(img.width/18),
+	    //var pixelInterval = 40, // Rather than inspect every single pixel in the image inspect every 5th pixel
 		count = 0,
 		k = -4,
 		data, datalength;
-	    
+	    //console.log(pixelInterval);
 	    var rgbval = {r:102,g:102,b:102};
 	    data = imgdata[i].data;
 	    datalength = data.length;
