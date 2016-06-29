@@ -10,7 +10,7 @@ npm+nodejs, [node-canvas](https://github.com/Automattic/node-canvas) and its pre
 
 ```
 git clone https://github.com/TheDen/mosaic-o-matic/
-cd mosaic-o-mati
+cd mosaic-o-matic
 npm install
 npm start
 ```
