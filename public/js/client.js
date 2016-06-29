@@ -89,7 +89,7 @@ function getcolors(rows, cols, pieceWidth, pieceHeight) {
 		k = -4,
 		data, datalength;
 	    
-	    var rgbval = {r:102,g:102,b:102}; // Default RGB value for rederence
+	    var rgbval = {r:102,g:102,b:102}; // Default RGB value for reference
 	    data = imgdata[i].data;
 	    datalength = data.length;
 	    
