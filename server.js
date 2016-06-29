@@ -1,12 +1,4 @@
-// Simulates a mosaic server.
-//
-// /             serves mosaic.html
-// /js/*         servers static files
-// /color/<hex>  generates a tile for the color <hex>
-//
 var mosaic = require('./public/js/mosaic.js');
-//var fs = require('fs');
-//var http = require('http');
 var url = require('url');
 var path = require('path');
 var util = require('util');
@@ -14,12 +6,9 @@ var fs = require('fs-extra');
 var express = require('express');
 var app = express();
 app.use(express.static('public'));
-var http = require('http');
-
+//var http = require('http');
 var Canvas = require('canvas');
 var multer   =  require( 'multer' );
-//var upload   =  multer( { dest: 'uploads/' } );
-
 var dir = path.dirname(fs.realpathSync(__filename));
 var svgTemplate = [
 		   '  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="%d" height="%d">',
@@ -33,14 +22,13 @@ var storage = multer.diskStorage({
 	},
 	filename: function (request, file, callback) {
 	    console.log(file);
-	    callback(null, file.originalname)
+	    callback(null, file.originalname);
 	}
     });
 
 var upload = multer({storage: storage}).single('file');
-
 var server = app.listen(8765, function () {
-        console.log('Listening on port ' + server.address().port)
+        console.log('Listening on port ' + server.address().port);
     });
 
 app.get('/', function(req, res) {
@@ -52,70 +40,87 @@ app.get('/', function(req, res) {
 app.post('/upload', function(req, res) {
 	upload(req, res, function(err) {
 		if(err) {
-		    console.log('Error Occured' + err);
+		    console.log('Error Occured ' + err);
 		    return;
 		}
-		//console.log(req.file.path);
-		//res.end('Your Files Uploaded');
-		//console.log('Photo Uploaded');
-		//console.log(req.method);
-		//console.log(req.body);
 		return res.status( 200 ).send( req.file.path );
-	    })
+	    });
 	    });
 
 app.get('/uploads/*', function(req, res)  {
-	// fix errror with garbled URIs
-	try {
-	    var image = decodeURIComponent((url.parse(req.url).pathname).split("/uploads")[1]);
+	var image = url.parse(req.url).pathname.split("/uploads")[1];
+	console.log(image);
+	if (image == '/') {
+	    res.writeHead(404, {'Content-Type': 'text/html'});
+	    fs.createReadStream(dir + '/public/404.html').pipe(res);
+	    return;
 	}
-        catch (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'});
-            fs.createReadStream(dir + '/public/404.html').pipe(res);
-            return;
+	else {
+	    try {
+		image = decodeURIComponent((url.parse(req.url).pathname).split("/uploads")[1]);
 	    }
-	fs.stat('uploads' + image, function(err, stat) {
-		if(err == null) {
-		    console.log(image + ' exists on server');
-		    var img = fs.readFileSync('uploads' + image);
-		    res.writeHead(200, {'Content-Type': 'image' });
-		    res.end(img, 'binary');
-		    //return;
-		} else if(err.code == 'ENOENT') {
-		    console.log(image + 'does not exist on server');
-		    res.writeHead(404, {'Content-Type': 'text/html'});
-		    fs.createReadStream(dir + '/public/404.html').pipe(res);
-		    return;
-		} else {
-		    console.log('Some other error: ', err.code);
-		}
-	    });
+	    catch (err) {
+		res.writeHead(404, {'Content-Type': 'text/html'});
+		fs.createReadStream(dir + '/public/404.html').pipe(res);
+		return;
+	    }
+	    fs.stat('uploads' + image, function(err, stat) {
+		    if (err == null) {
+			console.log(image + ' exists on server');
+			var img = fs.readFileSync('uploads' + image);
+			res.writeHead(200, {'Content-Type': 'image' });
+			res.end(img, 'binary');
+			return;
+		    } else if (err.code == 'ENOENT') {
+			console.log(image + ' does not exist on server');
+			res.writeHead(404, {'Content-Type': 'text/html'});
+			fs.createReadStream(dir + '/public/404.html').pipe(res);
+			return;
+		    } else {
+			console.log('500 err: ' +  err.code);
+			res.writeHead(500, {'Content-Type': 'text/html'});
+			fs.createReadStream(dir + '/public/500.html').pipe(res);
+			return;
+		    }
+		});
+	}
 	return;
-	});
+    });
 
 app.get('/index.html', function (req, res) {
-	try {
-	    var image = decodeURIComponent(url.parse(req.url).query);
-	}
-        catch (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'});
+	var image = decodeURIComponent(url.parse(req.url).query);
+	console.log(image);
+	if (!image) {
+	    res.writeHead(404, {'Content-Type': 'text/html'});
             fs.createReadStream(dir + '/public/404.html').pipe(res);
             return;
-        }
-	console.log('uploads' + image);
-        fs.stat('uploads/' + image, function(err, stat) {
-                if(err == null) {
-		    res.writeHead(200, {'Content-Type': 'text/html' });
-                    fs.createReadStream(dir + '/index.html').pipe(res);
-		    return;
-                } else if(err.code == 'ENOENT') {
-		    res.writeHead(404, {'Content-Type': 'text/html'});
-                    fs.createReadStream(dir + '/public/404.html').pipe(res);
-		    return;
-		} else {
-		    console.log('Some other error: ', err.code);
-		}
-	    });  
+	}
+	else {
+	    try {
+		image = decodeURIComponent(url.parse(req.url).query);
+		console.log(image);
+	    }
+	    catch (err) {
+		res.writeHead(404, {'Content-Type': 'text/html'});
+		fs.createReadStream(dir + '/public/404.html').pipe(res);
+		return;
+	    }
+	    fs.stat('uploads/' + image, function(err, stat) {
+		    if(err == null) {
+			res.writeHead(200, {'Content-Type': 'text/html' });
+			fs.createReadStream(dir + '/index.html').pipe(res);
+			return;
+		    } else if(err.code == 'ENOENT') {
+						res.writeHead(404, {'Content-Type': 'text/html'});
+			fs.createReadStream(dir + '/public/404.html').pipe(res);
+			return;
+		    } else {
+			console.log('err');
+			console.log('Some other error: ' + err.code);
+			return;
+		    }
+		});  
+	}
 	return;
     });
 
@@ -133,12 +138,11 @@ app.get('/svg', function(req, res){
 		if(err == null) {
 		    
 		} else if(err.code == 'ENOENT') {
-                    console.log('file does not exist');
 		    res.writeHead(404, {'Content-Type': 'text/html'});
                     fs.createReadStream(dir + '/public/404.html').pipe(res);
 		    return;
 		} else {
-                    console.log('Some other error: ', err.code);
+                    console.log('Some other error: ' + err.code);
 		    //return;
                 }
             });
@@ -151,20 +155,18 @@ app.get('/svg', function(req, res){
 	var img = new Image();
 	
 	img.onerror = function (err) {
-	throw err
+	    throw err;
 	}
 	
 	img.onload = function () {
 	    var rows = mosaic.TILE_HEIGHT;
 	    var cols = mosaic.TILE_WIDTH;
 	    
-	    var pieces = [];
 	    var pieceWidth = img.width / cols;
 	    var pieceHeight = img.height / rows;
 	    canvas.width = img.width;
-	    canvas.height = img.height;;
-	    var tiles = rows * cols;
-	    var hexcolors = [];//new Array(tiles);
+	    canvas.height = img.height;
+	    var hexcolors = [];
 	    var i = 0;
 	    var imgdata = [];
 	    ctx.drawImage(img, 0, 0);
@@ -207,7 +209,7 @@ app.get('/svg', function(req, res){
 	    res.write(body);
 	    body = '';
 	    var j = 0;
-	    for (var i = 0; i < (mosaic.TILE_WIDTH * mosaic.TILE_HEIGHT); i++) {
+	    for (i = 0; i < (mosaic.TILE_WIDTH * mosaic.TILE_HEIGHT); i++) {
 		if (j ==  mosaic.TILE_WIDTH) {
 		    body = body.concat('<br />\n');
 		    res.write(body);
@@ -234,6 +236,8 @@ app.get('/svg', function(req, res){
 	}
 	catch (err) {
 	    console.log('file error');
+	    res.writeHead(500, {'Content-Type': 'text/html'});
+	    fs.createReadStream(dir + '/public/500.html').pipe(res);
 	    return;
 	}
     });

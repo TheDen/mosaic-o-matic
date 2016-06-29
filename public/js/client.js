@@ -19,6 +19,7 @@ function updateslider() {
     dispDiv.innerHTML = "Number of tiles: " + slider.value + "x" + slider.value;
 }
 
+// Main function for drawing based on events
 function process() {
     if (slider.value == 0) {
 	clearimg();
@@ -31,27 +32,19 @@ function process() {
 	cols = slider.value;
 	canvas.width = img.width;
 	canvas.height = img.height;
-	console.log(img.width);
-	console.log(img.height);
 	
-	var pieces = [];
 	var pieceWidth = img.width / cols;
 	var pieceHeight = img.height / rows;
 	
 	drawimg();
 	
-	for (var row = 0; row < rows; row++) {
-	    for (var col = 0; col < cols; col++) {
-		pieces.push({
-			col: col,
-			    row: row
-			    });
-	    }
-	}
 	var tiles = rows * cols;
 	var hexcolors = []; //new Array('tiles');
-	hexcolors = getcolors(rows, cols, pieces, pieceWidth, pieceHeight);
 	
+	// grab the color values
+	hexcolors = getcolors(rows, cols, pieceWidth, pieceHeight);
+	
+	// logic for radio buttons
 	var radios = document.forms["shapes"].elements["shape"];
 	if (radios[0].checked) {
 	    clearimg();
@@ -84,20 +77,19 @@ function process() {
     }
 }
 
-function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
+function getcolors(rows, cols, pieceWidth, pieceHeight) {
     var imgdata = [];
     var hexcolors = [];
     var i = 0;
     for (var y = 0; y < rows; y++) {
 	for (var x = 0; x < cols; x++) {
 	    imgdata.push(ctx.getImageData(x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight)); 
-	    var pixelInterval = Math.ceil(img.width/18),
-	    //var pixelInterval = 40, // Rather than inspect every single pixel in the image inspect every 5th pixel
+	    var pixelInterval = 4, // Inspect every fourth pixel
 		count = 0,
 		k = -4,
 		data, datalength;
-	    //console.log(pixelInterval);
-	    var rgbval = {r:102,g:102,b:102};
+	    
+	    var rgbval = {r:102,g:102,b:102}; // Default RGB value for rederence
 	    data = imgdata[i].data;
 	    datalength = data.length;
 	    
@@ -108,20 +100,21 @@ function getcolors(rows, cols, pieces, pieceWidth, pieceHeight) {
 		rgbval.b += data[k+2];
 	    }
 	    
-	    // floor the average values to give correct rgb values (ie: round number values)
+	    // Floor the RGB values
 	    rgbval.r = Math.floor(rgbval.r/count);
 	    rgbval.g = Math.floor(rgbval.g/count);
 	    rgbval.b = Math.floor(rgbval.b/count);
 	    
-	    // Bitwise operation for fast rgb to hex conversion
+	    // Magic bitwise operations for fast rgb to hex conversion
 	    var bin = rgbval.r << 16 | rgbval.g << 8 | rgbval.b;
 	    hexcolors.push('\#'.concat(bin.toString(16).toUpperCase()));
 	    i++;
 	}
     }
-    return hexcolors;
+return hexcolors;
 }
 
+// Draws the square tiles
 function drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     var i = 0;
     for (var y = 0; y < rows; y++) {
@@ -132,34 +125,29 @@ function drawMosaicRect(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     }
 }
 
+// Draws the circle tiles
 function drawMosaicCirc(hexcolors, rows, cols, pieceWidth, pieceHeight) {
     var i = 0;
     for (var y = 0; y < rows; y++) {
         for (var x = 0; x < cols; x++) {
 	    ctx.fillStyle = hexcolors[i];
 	    ctx.beginPath();
-	    //ctx.clearRect (0, 0, canvas.width, canvas.height);
-	    //ctx.fill();
 	    ctx.lineWidth = 0;
 	    ctx.strokeStyle = hexcolors[i++];
 	    ctx.stroke();
 	    ctx.arc((x* pieceWidth)+pieceWidth/2, (y * pieceHeight)+pieceHeight/2, pieceWidth, 2*Math.PI, false);
 	    ctx.fill();
-	    
 	}
     }
 }
-
 
 var slider = document.getElementById("slider");
 var dispDiv = document.getElementById("dispDiv");
     
 var img = new Image();
-img.src = imgsrc;
-console.log(img.src);
-img.onload = process;
-img.crossOrigin = "Anonymous";
-
+img.src = imgsrc; // imgsrc variable shared with inline js in index.html
+img.onload = process; // Run inital drawing process once image is loaded
+img.crossOrigin = "Anonymous"; // Bypass tainted Canvases. Can be disabled without breaking
 slider.addEventListener("input", function start() {  process(); });
 
 
