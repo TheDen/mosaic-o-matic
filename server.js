@@ -46,6 +46,7 @@ app.post('/upload', function(req, res) {
 	    });
     });
 
+// Place image in uploads folder
 app.get('/uploads/*', function(req, res)  {
 	var image = url.parse(req.url).pathname.split("/uploads")[1];
 	console.log(image);
@@ -123,6 +124,7 @@ app.get('/index.html', function (req, res) {
 	return;
     });
 
+// Server side SVGiification
 app.get('/svg', function(req, res){
 	try {
 	    var image = decodeURIComponent(url.parse(req.url).query);
@@ -172,28 +174,29 @@ app.get('/svg', function(req, res){
 	    for (var y = 0; y < rows; y++) {
 		for (var x = 0; x < cols; x++) {
 		    imgdata.push(ctx.getImageData(x * pieceWidth, y * pieceHeight, pieceWidth, pieceHeight));
-		    var pixelInterval = 5, // Rather than inspect every single pixel in the image inspect every 5th pixel
+		    var pixelInterval = 5, // Inspect every fifth pixel
 			count = 0,
 			k = -4,
 			data, datalength;
-
+		    
 		    var rgbval = {r:0, g:0, b:0};
 		    data = imgdata[i].data;
 		    datalength = data.length;
 		    
-	    while ((k += pixelInterval * 4) < datalength) {
+		    while ((k += pixelInterval * 4) < datalength) {
 			count++;
 			rgbval.r += data[k];
 			rgbval.g += data[k+1];
 			rgbval.b += data[k+2];
 		    }
-
-		    // floor the average values to give correct rgb values (ie: round number values)
+		    
+		    // Floor the RGB values
 		    rgbval.r = Math.floor(rgbval.r/count);
 		    rgbval.g = Math.floor(rgbval.g/count);
 		    rgbval.b = Math.floor(rgbval.b/count);
-
-		    // Bitwise operation for fast rgb to hex conversion
+		    
+		    
+		    // Magic bitwise operations for fast rgb to hex conversion
 		    var bin = rgbval.r << 16 | rgbval.g << 8 | rgbval.b;
 		    hexcolors.push(bin.toString(16).toUpperCase());
 		    i++;
