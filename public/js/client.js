@@ -33,8 +33,8 @@ function process() {
 	canvas.width = img.width;
 	canvas.height = img.height;
 	
-	var pieceWidth = img.width / cols;
-	var pieceHeight = img.height / rows;
+	var pieceWidth = Math.ceil(img.width / cols);
+	var pieceHeight = Math.ceil(img.height / rows);
 	
 	drawimg();
 	
