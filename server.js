@@ -45,7 +45,7 @@ app.post('/upload', function(req, res) {
 		}
 		return res.status( 200 ).send( req.file.path );
 	    });
-	    });
+    });
 
 app.get('/uploads/*', function(req, res)  {
 	var image = url.parse(req.url).pathname.split("/uploads")[1];
@@ -196,12 +196,10 @@ app.get('/svg', function(req, res){
 
 		    // Bitwise operation for fast rgb to hex conversion
 		    var bin = rgbval.r << 16 | rgbval.g << 8 | rgbval.b;
-		    //hexcolors.push('\#'.concat(bin.toString(16).toUpperCase()));
 		    hexcolors.push(bin.toString(16).toUpperCase());
 		    i++;
 		}
 	    }
-	    //console.log(hexcolors);
 	    
 	    res.writeHead(200, {'Content-Type': 'text/xml'});
 	    var body = '';
@@ -215,13 +213,11 @@ app.get('/svg', function(req, res){
 		    res.write(body);
 		    body = '';
 		    body = body.concat(util.format(svgTemplate, mosaic.TILE_WIDTH, mosaic.TILE_HEIGHT, hexcolors[i]));
-		    //body = body.concat(util.format(svgTemplate, 12, 12, hexcolors[i]));
 		    body = body.concat('\n');
 		    j = 1;
 		}
 		else {
 		    body = body.concat(util.format(svgTemplate, mosaic.TILE_WIDTH, mosaic.TILE_HEIGHT, hexcolors[i]));
-		    //body = body.concat(util.format(svgTemplate, 12, 12, hexcolors[i]));
 		    body = body.concat('\n');
 		    j++;
 		}
