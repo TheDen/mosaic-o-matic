@@ -2,9 +2,13 @@
 
 Mosaicifies any uploaded image. Links are also sharable! [Live version](http://162.243.87.171/)
 
-[Sample pug image](http://162.243.87.171/index.html?sample.jpg)
+Samples:
+
+[Pug ](http://162.243.87.171/index.html?sample.jpg)
 
 [Sample Louis Wain cat](http://162.243.87.171/index.html?sample2.png)
+
+[The Matterhorn] (http://162.243.87.171/index.html?sample3.jpg)
 
 ### Prerequisities
 
