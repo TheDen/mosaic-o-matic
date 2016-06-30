@@ -6,7 +6,6 @@ var fs = require('fs-extra');
 var express = require('express');
 var app = express();
 app.use(express.static('public'));
-//var http = require('http');
 var Canvas = require('canvas');
 var multer   =  require( 'multer' );
 var dir = path.dirname(fs.realpathSync(__filename));
