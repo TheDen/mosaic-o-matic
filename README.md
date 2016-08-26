@@ -1,14 +1,16 @@
 # mosaic-o-matic
 
-Mosaicifies any uploaded image. Links are also sharable! [Live version](http://162.243.87.171/)
+Mosaicifies any uploaded image. Links are also sharable! ~~[Live version](http://162.243.87.171/)~~
+
+EDIT: Disabled live version due to server costs :disappointed:
 
 Samples:
 
-[Pug ](http://162.243.87.171/index.html?sample.jpg)
+~~[Pug ](http://162.243.87.171/index.html?sample.jpg)~~
 
-[Louis Wain cat](http://162.243.87.171/index.html?sample2.png)
+~~[Louis Wain cat](http://162.243.87.171/index.html?sample2.png)~~
 
-[The Matterhorn] (http://162.243.87.171/index.html?sample3.jpg)
+~~[The Matterhorn] (http://162.243.87.171/index.html?sample3.jpg)~~
 
 ### Prerequisities
 
